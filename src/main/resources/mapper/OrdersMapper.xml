@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ygy.dao.OrdersDao">
+
+
+    <select id="selectAll" resultType="com.ygy.pojo.Orders">
+        select * from orders
+        <where>
+            <if test="beginTime!=null and beginTime!=''">
+                order_time &gt;= #{beginTime}
+            </if>
+            <if test="endTime!=null and endTime!=''">
+                and order_time &lt;= #{endTime}
+            </if>
+            <if test="id!=null">
+                and id = #{id}
+            </if>
+        </where>
+        order by order_time DESC limit #{pageSize} offset #{page};
+    </select>
+</mapper>

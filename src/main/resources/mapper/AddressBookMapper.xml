@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ygy.dao.AddressBookDao">
+    <update id="updateIsDefault">
+        update address_book set is_default = #{addressBook.isDefault}
+                            where user_id = #{addressBook.userId};
+    </update>
+    <update id="updateAddress">
+        update address_book
+        <set>
+            <if test="addressBook.consignee != null and addressBook.consignee != ''">
+                consignee = #{addressBook.consignee},
+            </if>
+            <if test="addressBook.sex != null">
+                sex = #{addressBook.sex},
+            </if>
+            <if test="addressBook.detail != null and addressBook.detail != ''">
+                detail = #{addressBook.detail},
+            </if>
+            <if test="addressBook.label != null and addressBook.label != ''">
+                label = #{addressBook.label},
+            </if>
+            <if test="addressBook.phone != null and addressBook.phone != ''">
+                phone = #{addressBook.phone},
+            </if>
+        </set>
+        where id = =#{addressBook.id};
+    </update>
+
+
+    <select id="selectByCityCodeAndIsDefault" resultType="com.ygy.pojo.AddressBook">
+        select * from address_book where user_id=#{addressBook.userId}
+                                     and is_default = #{addressBook.isDefault};
+    </select>
+    <select id="selectAllByUserId" resultType="com.ygy.pojo.AddressBook">
+        select * from address_book where user_id=#{addressBook.userId};
+    </select>
+</mapper>

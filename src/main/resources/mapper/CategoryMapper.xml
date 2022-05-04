@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ygy.dao.CategoryDao">
+
+
+    <select id="selectByPage" resultType="com.ygy.pojo.Category">
+        select id,type,name,sort,create_time,update_time,create_user,update_user from category order by sort ASC LIMIT #{pageSize} OFFSET #{page};
+    </select>
+    <select id="count" resultType="java.lang.Integer" >
+        SELECT COUNT(*) FROM category
+    </select>
+    <select id="getAllNameByType" resultType="com.ygy.pojo.Category">
+        select * from category where type = #{type};
+    </select>
+
+
+</mapper>

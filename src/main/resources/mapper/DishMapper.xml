@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ygy.dao.DishDao">
+    <insert id="save">
+        insert into dish values
+        (#{id},#{name},#{categoryId},#{price},#{code},#{image},#{description},#{status},#{sort},#{createTime},#{updateTime},#{createUser},#{updateUser},#{isDeleted});
+    </insert>
+    <update id="batchStatus">
+        update dish set status = #{status} where id in
+        <foreach collection="list" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </update>
+    <update id="update">
+        update dish set name=#{name},category_id=#{categoryId},price=#{price},code=#{code},
+                        image=#{image},description=#{description},status=#{status},sort=#{sort},update_time=#{updateTime},
+                        update_user=#{updateUser},is_deleted=#{isDeleted}
+        where id = #{id};
+    </update>
+
+
+    <select id="selectByPage" resultType="com.ygy.pojo.Dish">
+        select * from dish where name like "%"#{name}"%" order by update_time DESC LIMIT #{pageSize} OFFSET #{page};
+    </select>
+
+    <select id="count" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM dish
+    </select>
+
+    <select id="getTypeById" resultType="java.lang.String">
+        select name from category where id = #{id};
+    </select>
+
+    <select id="selectByCategoryId" resultType="com.ygy.pojo.Dish">
+        select * from dish where category_id = #{categoryId};
+    </select>
+</mapper>
